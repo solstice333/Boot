@@ -1,46 +1,20 @@
-const app = require('express')()
-const upload = require('multer')() //middleware for parsing form-data
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-const ItemDB = require('./item-db')
-const db = new ItemDB()
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
 
-app.route('/items')
-  .get((req, res) => {
-    //GET /items/?name=TERM
-    if (req.query.name) {
-      let result = db.searchItem(req.query.name)
-      result ? res.json(result) : res.sendStatus(404)
-    //GET /items 
-    } else {
-      res.json(db.getAllItems())
-    }
-  })
-  //create item
-  .post(upload.array(), (req, res) => {
-    //item's name
-    let result = db.createItem(req.body)
+var app = express();
 
-    result ? res.json(result) : res.sendStatus(404)
-  })
-  //update item
-  .put(upload.array(), (req, res) => {
-    let item = db.updateItem(req.body)
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-    item !== -1 ? res.sendStatus(200) : res.sendStatus(404)
-  })
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
-app.route('/items/:id')
-  .get((req, res) => {
-    let item = db.getItem(parseInt(req.params['id']))
-
-    item !== -1 ? res.json(item) : res.sendStatus(404)
-  })
-  .delete((req, res) => {
-    let result = db.deleteItem(req.params['id'])
-
-    result ? res.sendStatus(200) : res.sendStatus(404)
-  })
-
-app.listen(3000, function() {
-  console.log('POC listening on port 3000!')
-})
+module.exports = app;
