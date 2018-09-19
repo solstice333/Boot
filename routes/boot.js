@@ -7,9 +7,9 @@ const categoryController = require('../controllers/categoryController');
 
 router.get('/', itemController.index);
 
-router.get('/items', itemController.items);
-
 router.get('/itemSchema', itemController.itemSchema);
+
+router.get('/items', itemController.items);
 
 router.get('/ratingSchema', ratingController.ratingSchema);
 

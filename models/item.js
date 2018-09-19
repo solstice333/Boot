@@ -3,9 +3,9 @@ const Schema = mongoose.Schema;
 const { Rating } = require('./rating');
 
 const ItemSchema = new Schema({
-   name: { type: String, required: true, lowercase: true },
-   price: { type: Number, required: true, default: 0 },
-   inventory: { type: Number, required: true, default: 0 },
+   name: { type: String, required: true, lowercase: true, index: true },
+   price: { type: Number, required: true, default: 0, index: true },
+   inventory: { type: Number, required: true, default: 0, index: true },
    category: [{ type: Schema.Types.ObjectId, ref: 'Category' }]
 });
 
@@ -25,7 +25,8 @@ ItemSchema
          });
    });
 
-module.exports = {
-   ItemSchema,
-   Item: mongoose.model('Item', ItemSchema)
-};
+const Item = mongoose.model('Item', ItemSchema);
+
+Item.createIndexes();
+
+module.exports = { ItemSchema, Item };
