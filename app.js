@@ -25,8 +25,16 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-   err = req.app.get('env') === 'development' ? err : {}
    res.status(err.status || 500);
+
+   if (req.app.get('env') === 'development') {
+      err.stack = err.stack.split(/\n|\r\n|\r/);
+      Object.defineProperty(err, 'stack', { enumerable: true });
+      Object.defineProperty(err, 'name', { enumerable: true });
+   }
+   else
+      err = {};
+
    res.json(err);
 })
 
