@@ -13,7 +13,10 @@ exports.items = function(req, res, next) {
 };
 
 exports.itemDetail = function(req, res, next) {
-   next(createError(404, 'item detail not yet implemented'));
+   Item.findById(req.params.id)
+      .populate('category')
+      .then(item => res.json(item))
+      .catch(next);
 };
 
 exports.itemSchema = function(req, res, next) {
