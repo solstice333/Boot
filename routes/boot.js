@@ -11,6 +11,8 @@ router.get('/itemSchema', itemController.itemSchema);
 
 router.get('/items', itemController.items);
 
+router.get('/items/:id', itemController.itemDetail);
+
 router.get('/ratingSchema', ratingController.ratingSchema);
 
 router.get('/categorySchema', categoryController.categorySchema);
