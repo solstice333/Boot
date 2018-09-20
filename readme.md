@@ -49,7 +49,7 @@ $ node populatedb.js
 $ DEBUG=boot:* npm run devstart
 ```
 
-### in a browser visit the REST API doc at localhost:3000/boot
+### in a browser visit the REST API doc at `http://localhost:3000/boot`
 
 ### try getting a list of items
 
