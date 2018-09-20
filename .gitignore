@@ -75,3 +75,6 @@ typings/
 # db
 /db/*
 !/db/.track
+
+# .DS_Store
+.DS_Store
